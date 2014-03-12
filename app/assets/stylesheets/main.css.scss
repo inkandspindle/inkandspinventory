@@ -1,0 +1,34 @@
+// Place all the styles related to the main controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+
+table {
+  td.numeric
+  {
+    text-align: right;
+  }
+
+  .orders
+  {
+    thead tr td
+    {
+      line-height: 0;
+      padding: 0;
+    }
+
+    td.actions
+    {
+      font-size: 0.75em;
+    }
+
+    td.printed
+    {
+      text-align: center;
+
+      input
+      {
+        margin-bottom: 0;
+      }
+    }
+  }
+}
