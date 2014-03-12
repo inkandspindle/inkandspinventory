@@ -2,10 +2,32 @@
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
-table {
+div.spinner
+{
+  position: relative;
+  height: 200px;
+
+  img
+  {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    margin-left: -8px;
+    margin-top: -8px;
+    display: block;
+  }
+}
+
+table
+{
   td.numeric
   {
     text-align: right;
+  }
+
+  tr.order-table-container
+  {
+    display: none;
   }
 
   .orders
