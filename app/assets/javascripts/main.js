@@ -5,7 +5,14 @@ $(document).ready(function() {
     if (result_tr.css("display") == "none")
     {
       result_tr.show("fast", function() {
+        $(this).addClass("loading");
         $(this).append('<td colspan="4"><div class="spinner"><img src="ajax-loader.gif"></img></div></td>');
+        $.get("orders", function(data) {
+          var result_tr = $(".loading");
+          result_tr.removeClass("loading");
+          result_tr.empty();
+          result_tr.append('<td colspan="4">' + data + '</td>');
+        });
       });
     }
     else

@@ -4,6 +4,8 @@ Inkandspinventory::Application.routes.draw do
 
   root 'main#index'
 
+  get 'orders' => 'order#table'
+
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'
 
