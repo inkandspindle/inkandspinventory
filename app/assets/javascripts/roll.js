@@ -49,7 +49,7 @@ updateRollNumbers = function(rollId)
     function(html) {
       rollTr = $('tr.roll[data-roll_id="' + rollId + '"]');
       rollTr.find(".variable").remove();
-      rollTr.find(".name").after(html);
+      rollTr.find(".editlinks").after(html);
     }
   );
 }
