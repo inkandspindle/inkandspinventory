@@ -76,8 +76,11 @@ editRoll = function()
   var nameTd = rollTr.find('.name');
   var lengthTd = rollTr.find('.length');
 
-  var nameInput = $('<input type="text" name="name" value="' + nameTd.html() + '"></input>');
-  var lengthInput = $('<input type="number" min="0" step="0.1" name="length" value="' + lengthTd.html() + '"></input>');
+  var origName = nameTd.html();
+  var origLength = lengthTd.html();
+
+  var nameInput = $('<input type="text" name="name" value="' + origName + '"></input>');
+  var lengthInput = $('<input type="number" min="0" step="0.1" name="length" value="' + origLength + '"></input>');
 
   nameTd.html(nameInput);
   lengthTd.html(lengthInput);
@@ -101,8 +104,20 @@ editRoll = function()
         lengthTd.html(data["length"].toFixed(1));
         editLink.html("edit");
         editLink.off("click").click(editRoll);
+        updateRollNumbers(rollTr.data("roll_id"));
       });
     return false;
+  });
+
+  $(document).on('keyup.canceledit', function(e) {
+    if (e.keyCode == 27)
+    {
+      nameTd.html(origName);
+      lengthTd.html(origLength);
+      editLink.html("edit");
+      editLink.off("click").click(editRoll);
+      $(document).off('keyup.canceledit');
+    }
   });
 
   return false;
