@@ -3,6 +3,13 @@ class Roll < ActiveRecord::Base
 
   before_save :default_values
 
+  def onshelf
+    length - used
+  end
+  def available
+    length - allocated
+  end
+
   private
 
     def default_values

@@ -16,12 +16,10 @@
 
   <tbody>
     <% @rolls.each do |roll| %>
-      <tr class="roll">
+      <tr class="roll" data-roll_id="<%= roll.id %>">
         <td class="numeric"><%= number_with_precision(roll.length, precision: 1) %></td>
-        <td><strong><%= roll.name %></strong></td>
-        <td class="numeric"><strong><%= number_with_precision(roll.length - roll.used, precision: 1) %></strong></td>
-        <td class="numeric"><%= number_with_precision(roll.allocated, precision: 1) %></td>
-        <td class="numeric"><%= number_with_precision(roll.length - roll.allocated, precision: 1) %></td>
+        <td class="name"><strong><%= roll.name %></strong></td>
+        <%= render partial: "variable_numbers", locals: { roll: roll } %>
         <td><%= link_to 'Show', roll %></td>
         <td><%= link_to 'Edit', edit_roll_path(roll) %></td>
         <td><%= link_to 'Destroy', roll, method: :delete, data: { confirm: 'Are you sure?' } %></td>

@@ -1,5 +1,5 @@
 class RollsController < ApplicationController
-  before_action :set_roll, only: [:show, :edit, :update, :destroy]
+  before_action :set_roll, only: [:show, :variable_numbers, :edit, :update, :destroy]
 
   # GET /rolls
   def index
@@ -8,6 +8,10 @@ class RollsController < ApplicationController
 
   # GET /rolls/1
   def show
+  end
+
+  def variable_numbers
+    render partial: "variable_numbers", locals: { roll: @roll }
   end
 
   # GET /rolls/new

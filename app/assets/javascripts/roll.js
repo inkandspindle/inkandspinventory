@@ -1,9 +1,21 @@
+updateRollNumbers = function(rollId)
+{
+  $.get(
+    'rolls/' + rollId + '/variable_numbers.html',
+    function(html) {
+      rollTr = $('tr.roll[data-roll_id="' + rollId + '"]');
+      rollTr.find(".variable").remove();
+      rollTr.find(".name").after(html);
+    }
+  );
+}
+
 loadOrderTable = function(rollId)
 {
-  var resultTr = $('tr[data-roll_id="'+rollId+'"]');
+  var resultTr = $('tr.order-table-container[data-roll_id="' + rollId + '"]');
   resultTr.empty();
-  resultTr.addClass("loading");
   resultTr.append('<td colspan="5"><div class="spinner"><img src="ajax-loader.gif"></img></div></td>');
+  resultTr.addClass("loading");
 
   $.get("rolls/" + rollId + "/ordertable", function(data) {
     var resultTr = $(".loading");
@@ -32,6 +44,7 @@ loadOrderTable = function(rollId)
         'rolls/' + rollId + '/orders',
         { "order": { "name": newOrderTr.find('input[name="name"]').val(), "length": newOrderTr.find('input[name="length"]').val() } },
         function(data) {
+          updateRollNumbers(data["roll_id"]);
           loadOrderTable(data["roll_id"]);
         },
         "json"

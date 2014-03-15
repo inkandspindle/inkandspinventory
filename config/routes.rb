@@ -8,6 +8,7 @@ Inkandspinventory::Application.routes.draw do
     resources :orders
     get 'ordertable' => 'orders#table'
   end
+  get 'rolls/:id/variable_numbers' => 'rolls#variable_numbers'
 
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'
