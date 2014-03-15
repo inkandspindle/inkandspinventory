@@ -12,6 +12,16 @@ $(document).ready(function() {
           resultTr.removeClass("loading");
           resultTr.empty();
           resultTr.append('<td colspan="5">' + data + '</td>');
+          resultTr.find('td.printed input[type="checkbox"]').click(function() {
+            var rollId = $(this).closest("tr.order-table-container").data("roll_id");
+            var orderId = $(this).closest("tr.order").data("order_id");
+            $.ajax({
+              type: 'PUT',
+              url: 'rolls/' + rollId + '/orders/' + orderId,
+              dataType: "xml",
+              data: { "order": { "done": ($(this).prop("checked") ? 1 : 0) } }
+            });
+          });
         });
       });
     }

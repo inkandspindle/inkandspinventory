@@ -10,10 +10,10 @@
           </thead>
           <tbody>
             <% @orders.each do |order| %>
-              <tr>
+              <tr class="order" data-order_id="<%= order.id %>">
                 <td class="actions"><%= link_to '[x]', roll_order_path(@roll, order), method: :delete, data: { confirm: 'Are you sure?' } %></td>
                 <td class="actions"><%= link_to 'edit', edit_roll_order_path(@roll, order) %></td>
-                <td class="printed"><input type="checkbox"<%= order.done? ? ' selected="1"' : "" %>></input></td>
+                <td class="printed"><input type="checkbox"<%= order.done? ? ' checked=1' : "" %>></input></td>
                 <td><%= order.name %></td>
                 <td class="numeric"><%= order.length %></td>
               </tr>

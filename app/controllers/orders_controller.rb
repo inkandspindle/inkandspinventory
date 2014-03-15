@@ -1,6 +1,6 @@
 class OrdersController < ApplicationController
   before_action :set_roll
-  before_action :set_order, only: [:show, :edit, :update, :destroy]
+  before_action :set_order, only: [:show, :edit, :update, :ajax_update, :destroy]
 
   def table
     @orders = @roll.orders.order(created_at: :asc)
@@ -39,10 +39,17 @@ class OrdersController < ApplicationController
 
   # PATCH/PUT /orders/1
   def update
-    if @order.update(order_params)
-      redirect_to roll_order_path(@roll, @order), notice: 'Order was successfully updated.'
-    else
-      render action: 'edit'
+    success = @order.update(order_params)
+
+    respond_to do |format|
+      format.html {
+        if success
+          redirect_to roll_order_path(@roll, @order), notice: 'Order was successfully updated.'
+        else
+          render action: 'edit'
+        end
+      }
+      format.xml { render xml: (success ? "Success" : "Failure") }
     end
   end
 
@@ -61,6 +68,6 @@ class OrdersController < ApplicationController
     end
 
     def order_params
-      params.require(:order).permit(:name, :length)
+      params.require(:order).permit(:name, :length, :done)
     end
 end
