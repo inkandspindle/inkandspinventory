@@ -9,33 +9,14 @@
             </tr>
           </thead>
           <tbody>
-            <tr>
-              <td class="actions"><a href="#">[x]</a></td>
-              <td class="actions"><a href="#">edit</a></td>
-              <td class="printed"><input type="checkbox"></input></td>
-              <td>Birch in Robins Egg</td>
-              <td class="numeric">10.0</td>
-            </tr>
-            <tr>
-              <td class="actions"><a href="#">[x]</a></td>
-              <td class="actions"><a href="#">edit</a></td>
-              <td class="printed"><input type="checkbox"></input></td>
-              <td>Grevillea in Mustard and Greylead</td>
-              <td class="numeric">5.0</td>
-            </tr>
-            <tr>
-              <td class="actions"><a href="#">[x]</a></td>
-              <td class="actions"><a href="#">edit</a></td>
-              <td class="printed"><input type="checkbox"></input></td>
-              <td>Wrens in Inky Blue</td>
-              <td class="numeric">7.5</td>
-            </tr>
-            <tr>
-              <td class="actions"><a href="#">[x]</a></td>
-              <td class="actions"><a href="#">edit</a></td>
-              <td class="printed"><input type="checkbox"></input></td>
-              <td>Silver Gum in Inky Blue and Greylead</td>
-              <td class="numeric">12.5</td>
-            </tr>
+            <% @orders.each do |order| %>
+              <tr>
+                <td class="actions"><%= link_to '[x]', order, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+                <td class="actions"><%= link_to 'edit', edit_order_path(order) %></td>
+                <td class="printed"><input type="checkbox"<%= order.done? ? ' selected="1"' : "" %>></input></td>
+                <td><%= order.name %></td>
+                <td class="numeric"><%= order.length %></td>
+              </tr>
+            <% end %>
           </tbody>
         </table>
