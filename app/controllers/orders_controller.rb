@@ -3,14 +3,14 @@ class OrdersController < ApplicationController
   before_action :set_order, only: [:show, :edit, :update, :destroy]
 
   def table
-    @orders = @roll.orders
+    @orders = @roll.orders.order(created_at: :asc)
     sleep 1
     render partial: "table"
   end
 
   # GET /orders
   def index
-    @orders = Order.all
+    @orders = @roll.orders
   end
 
   # GET /orders/1
@@ -19,7 +19,7 @@ class OrdersController < ApplicationController
 
   # GET /orders/new
   def new
-    @order = Order.new
+    @order = @roll.orders.new
   end
 
   # GET /orders/1/edit
@@ -28,10 +28,10 @@ class OrdersController < ApplicationController
 
   # POST /orders
   def create
-    @order = Order.new(order_params)
+    @order = @roll.orders.new(order_params)
 
     if @order.save
-      redirect_to @order, notice: 'Order was successfully created.'
+      redirect_to roll_order_path(@roll, @order), notice: 'Order was successfully created.'
     else
       render action: 'new'
     end
@@ -40,7 +40,7 @@ class OrdersController < ApplicationController
   # PATCH/PUT /orders/1
   def update
     if @order.update(order_params)
-      redirect_to @order, notice: 'Order was successfully updated.'
+      redirect_to roll_order_path(@roll, @order), notice: 'Order was successfully updated.'
     else
       render action: 'edit'
     end
@@ -49,7 +49,7 @@ class OrdersController < ApplicationController
   # DELETE /orders/1
   def destroy
     @order.destroy
-    redirect_to orders_url, notice: 'Order was successfully destroyed.'
+    redirect_to roll_orders_url(@roll), notice: 'Order was successfully destroyed.'
   end
 
   private
@@ -61,6 +61,6 @@ class OrdersController < ApplicationController
     end
 
     def order_params
-      params.require(:order).permit(:roll_id, :name, :length)
+      params.require(:order).permit(:name, :length)
     end
 end

@@ -16,8 +16,8 @@
       <tr class="roll">
         <td><%= roll.name %></td>
         <td class="numeric"><%= roll.length %></td>
-        <td class="numeric"><%= roll.length %></td>
-        <td class="numeric"><%= roll.length %></td>
+        <td class="numeric"><%= roll.used %></td>
+        <td class="numeric"><%= roll.length - roll.used %></td>
         <td><%= link_to 'Show', roll %></td>
         <td><%= link_to 'Edit', edit_roll_path(roll) %></td>
         <td><%= link_to 'Destroy', roll, method: :delete, data: { confirm: 'Are you sure?' } %></td>
