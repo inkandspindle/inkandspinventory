@@ -1,0 +1,14 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Name:</strong>
+  <%= @roll.name %>
+</p>
+
+<p>
+  <strong>Length:</strong>
+  <%= @roll.length %>
+</p>
+
+<%= link_to 'Edit', edit_roll_path(@roll) %> |
+<%= link_to 'Back', rolls_path %>

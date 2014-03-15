@@ -1,0 +1,33 @@
+<h1>Ink and Spindle Inventory</h1>
+
+<table id="rolls">
+  <thead>
+    <td width="500">Roll</td>
+    <td width="80">Metres</td>
+    <td width="80">Used</td>
+    <td width="80">Remains</td>
+    <td></td>
+    <td></td>
+    <td></td>
+  </thead>
+
+  <tbody>
+    <% @rolls.each do |roll| %>
+      <tr>
+        <td><%= roll.name %></td>
+        <td class="numeric"><%= roll.length %></td>
+        <td class="numeric"><%= roll.length %></td>
+        <td class="numeric"><%= roll.length %></td>
+        <td><%= link_to 'Show', roll %></td>
+        <td><%= link_to 'Edit', edit_roll_path(roll) %></td>
+        <td><%= link_to 'Destroy', roll, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+      <tr class="order-table-container">
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Roll', new_roll_path %>
