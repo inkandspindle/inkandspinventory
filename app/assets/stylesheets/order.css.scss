@@ -1,0 +1,20 @@
+tr.neworder
+{
+  td
+  {
+    line-height: 0.75rem;
+  }
+
+  input
+  {
+    height: 1.5rem;
+    padding-top: 0;
+    padding-bottom: 0;
+    margin-bottom: 0;
+  }
+
+  input[type="number"]
+  {
+    text-align: right;
+  }
+}

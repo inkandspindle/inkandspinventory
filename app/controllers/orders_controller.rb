@@ -30,26 +30,27 @@ class OrdersController < ApplicationController
   def create
     @order = @roll.orders.new(order_params)
 
-    if @order.save
-      redirect_to roll_order_path(@roll, @order), notice: 'Order was successfully created.'
-    else
-      render action: 'new'
+    respond_to do |format|
+      if @order.save
+        format.html { redirect_to roll_order_path(@roll, @order), notice: 'Order was successfully created.' }
+        format.json { render json: @order, status: :created, location: roll_order_path(@roll, @order) }
+      else
+        format.html { render action: 'new' }
+        format.json { render json: @order.errors, status: :unprocessable_entity }
+      end
     end
   end
 
   # PATCH/PUT /orders/1
   def update
-    success = @order.update(order_params)
-
     respond_to do |format|
-      format.html {
-        if success
-          redirect_to roll_order_path(@roll, @order), notice: 'Order was successfully updated.'
-        else
-          render action: 'edit'
-        end
-      }
-      format.xml { render xml: (success ? "Success" : "Failure") }
+      if @order.update(order_params)
+        format.html { redirect_to roll_order_path(@roll, @order), notice: 'Order was successfully updated.' }
+        format.json { render json: @order, status: :accepted, location: roll_order_path(@roll, @order) }
+      else
+        format.html { render action: 'edit' }
+        format.json { render json: @order.errors, status: :unprocessable_entity }
+      end
     end
   end
 
