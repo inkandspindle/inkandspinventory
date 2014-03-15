@@ -1,8 +1,9 @@
 class OrdersController < ApplicationController
+  before_action :set_roll
   before_action :set_order, only: [:show, :edit, :update, :destroy]
 
   def table
-    @orders = Order.all
+    @orders = @roll.orders
     sleep 1
     render partial: "table"
   end
@@ -52,12 +53,13 @@ class OrdersController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
+    def set_roll
+      @roll = Roll.find(params[:roll_id])
+    end
     def set_order
       @order = Order.find(params[:id])
     end
 
-    # Only allow a trusted parameter "white list" through.
     def order_params
       params.require(:order).permit(:roll_id, :name, :length)
     end

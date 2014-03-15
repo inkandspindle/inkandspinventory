@@ -4,10 +4,10 @@ Inkandspinventory::Application.routes.draw do
 
   root 'rolls#index'
 
-  resources :rolls
-
-  resources :orders
-  get 'ordertable' => 'orders#table'
+  resources :rolls do
+    resources :orders
+    get 'ordertable' => 'orders#table'
+  end
 
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'

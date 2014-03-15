@@ -22,7 +22,7 @@
         <td><%= link_to 'Edit', edit_roll_path(roll) %></td>
         <td><%= link_to 'Destroy', roll, method: :delete, data: { confirm: 'Are you sure?' } %></td>
       </tr>
-      <tr class="order-table-container">
+      <tr class="order-table-container" data-roll_id="<%= roll.id %>">
       </tr>
     <% end %>
   </tbody>

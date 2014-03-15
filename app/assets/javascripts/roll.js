@@ -1,24 +1,24 @@
 $(document).ready(function() {
   $("table#rolls > tbody > tr.roll").click(function() {
-    var result_tr = $(this).next();
+    var resultTr = $(this).next();
 
-    if (result_tr.css("display") == "none")
+    if (resultTr.css("display") == "none")
     {
-      result_tr.show("fast", function() {
+      resultTr.show("fast", function() {
         $(this).addClass("loading");
         $(this).append('<td colspan="4"><div class="spinner"><img src="ajax-loader.gif"></img></div></td>');
-        $.get("ordertable", function(data) {
-          var result_tr = $(".loading");
-          result_tr.removeClass("loading");
-          result_tr.empty();
-          result_tr.append('<td colspan="4">' + data + '</td>');
+        $.get("rolls/" + $(this).data("roll_id") + "/ordertable", function(data) {
+          var resultTr = $(".loading");
+          resultTr.removeClass("loading");
+          resultTr.empty();
+          resultTr.append('<td colspan="4">' + data + '</td>');
         });
       });
     }
     else
     {
-      result_tr.hide("fast", function() {
-        result_tr.empty();
+      resultTr.hide("fast", function() {
+        resultTr.empty();
       });
     }
   });
