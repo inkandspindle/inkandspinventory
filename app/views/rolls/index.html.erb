@@ -2,22 +2,26 @@
 
 <table id="rolls">
   <thead>
-    <td width="500">Roll</td>
-    <td width="80">Metres</td>
-    <td width="80">Used</td>
-    <td width="80">Remains</td>
-    <td></td>
-    <td></td>
-    <td></td>
+    <tr>
+      <td width="80">Length</td>
+      <td width="500">Roll</td>
+      <td width="80">On Shelf</td>
+      <td width="80">Allocated</td>
+      <td width="80">Available</td>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
   </thead>
 
   <tbody>
     <% @rolls.each do |roll| %>
       <tr class="roll">
-        <td><%= roll.name %></td>
         <td class="numeric"><%= roll.length %></td>
-        <td class="numeric"><%= roll.used %></td>
-        <td class="numeric"><%= roll.length - roll.used %></td>
+        <td><strong><%= roll.name %></strong></td>
+        <td class="numeric"><strong><%= roll.length - roll.used %></strong></td>
+        <td class="numeric"><%= roll.allocated %></td>
+        <td class="numeric"><%= roll.length - roll.allocated %></td>
         <td><%= link_to 'Show', roll %></td>
         <td><%= link_to 'Edit', edit_roll_path(roll) %></td>
         <td><%= link_to 'Destroy', roll, method: :delete, data: { confirm: 'Are you sure?' } %></td>
