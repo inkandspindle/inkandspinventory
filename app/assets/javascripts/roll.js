@@ -58,11 +58,11 @@ loadOrderTable = function(rollId)
 {
   var resultTr = $('tr.order-table-container[data-roll_id="' + rollId + '"]');
   resultTr.empty();
-  resultTr.append('<td colspan="5"><div class="spinner"><img src="ajax-loader.gif"></img></div></td>');
+  resultTr.append('<td colspan="6"><div class="spinner"><img src="ajax-loader.gif"></img></div></td>');
 
   $.get("rolls/" + rollId + "/ordertable", function(data) {
     resultTr.empty();
-    resultTr.append('<td colspan="5">' + data + '</td>');
+    resultTr.append('<td colspan="6">' + data + '</td>');
 
     resultTr.find('td.printed input[type="checkbox"]').click(setDoneStatus);
     resultTr.find('tr.neworder a.submit').click(addNewOrder);
