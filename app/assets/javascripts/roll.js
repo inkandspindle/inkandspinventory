@@ -65,8 +65,64 @@ loadOrderTable = function(rollId)
     resultTr.append('<td colspan="6">' + data + '</td>');
 
     resultTr.find('td.printed input[type="checkbox"]').click(setDoneStatus);
+    resultTr.find('a.editorder').click(editOrder);
     resultTr.find('tr.neworder a.submit').click(addNewOrder);
   });
+}
+
+editOrder = function()
+{
+  var orderTr = $(this).closest('tr.order');
+  var rollId = orderTr.closest('tr.order-table-container').data('roll_id');
+
+  var nameTd = orderTr.find('.ordername');
+  var lengthTd = orderTr.find('.orderlength');
+
+  var origName = nameTd.html();
+  var origLength = lengthTd.html();
+
+  var nameInput = $('<input type="text" name="name" value="' + origName + '"></input>');
+  var lengthInput = $('<input type="number" min="0" step="0.1" name="length" value="' + origLength + '"></input>');
+
+  nameTd.html(nameInput);
+  lengthTd.html(lengthInput);
+
+  nameInput.click(function() { return false; });
+  lengthInput.click(function() { return false; });
+
+  nameInput.focus();
+
+  var editLink = $(this);
+  editLink.html("done");
+  editLink.off("click").click(function() {
+    $.ajax({
+      type: 'PUT',
+      url: 'rolls/' + rollId + '/orders/' + orderTr.data("order_id"),
+      dataType: "json",
+      data: { "order": { "name": nameInput.val(), "length": lengthInput.val() } }
+    })
+      .done(function(data) {
+        nameTd.html(data["name"]);
+        lengthTd.html(data["length"].toFixed(1));
+        editLink.html("edit");
+        editLink.off("click").click(editOrder);
+        updateRollNumbers(rollId);
+      });
+    return false;
+  });
+
+  $(document).on('keyup.cancelorderedit', function(e) {
+    if (e.keyCode == 27)
+    {
+      nameTd.html(origName);
+      lengthTd.html(origLength);
+      editLink.html("edit");
+      editLink.off("click").click(editOrder);
+      $(document).off('keyup.cancelorderedit');
+    }
+  });
+
+  return false;
 }
 
 editRoll = function()
@@ -109,14 +165,14 @@ editRoll = function()
     return false;
   });
 
-  $(document).on('keyup.canceledit', function(e) {
+  $(document).on('keyup.cancelrolledit', function(e) {
     if (e.keyCode == 27)
     {
       nameTd.html(origName);
       lengthTd.html(origLength);
       editLink.html("edit");
       editLink.off("click").click(editRoll);
-      $(document).off('keyup.canceledit');
+      $(document).off('keyup.cancelrolledit');
     }
   });
 

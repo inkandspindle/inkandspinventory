@@ -13,9 +13,9 @@
               <tr class="order" data-order_id="<%= order.id %>">
                 <td class="actions"><%= link_to '[x]', roll_order_path(@roll, order), method: :delete, data: { confirm: 'Are you sure?' } %></td>
                 <td class="printed"><input type="checkbox"<%= order.done? ? ' checked=1' : "" %>></input></td>
-                <td><%= order.name %></td>
-                <td class="numeric"><%= order.length %></td>
-                <td class="actions"><%= link_to 'edit', edit_roll_order_path(@roll, order) %></td>
+                <td class="ordername"><%= order.name %></td>
+                <td class="numeric orderlength"><%= order.length %></td>
+                <td class="actions"><a class="editorder" href="#">edit</a></td>
               </tr>
             <% end %>
             <tr class="neworder">
