@@ -36,10 +36,14 @@ class RollsController < ApplicationController
 
   # PATCH/PUT /rolls/1
   def update
-    if @roll.update(roll_params)
-      redirect_to @roll, notice: 'Roll was successfully updated.'
-    else
-      render action: 'edit'
+    respond_to do |format|
+      if @roll.update(roll_params)
+        format.html { redirect_to @roll, notice: 'Roll was successfully updated.' }
+        format.json { render json: @roll, status: :accepted, location: roll_path(@roll) }
+      else
+        format.html { render action: 'edit' }
+        format.json { render json: @roll.errors, status: :unprocessable_entity }
+      end
     end
   end
 

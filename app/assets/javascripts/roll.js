@@ -1,3 +1,47 @@
+toggleOrderTableDisplay = function()
+{
+  var resultTr = $(this).next('tr.order-table-container');
+
+  if (resultTr.css("display") == "none")
+  {
+    resultTr.show("fast", function() { loadOrderTable($(this).data("roll_id")); });
+  }
+  else
+  {
+    resultTr.hide("fast", function() { $(this).empty(); });
+  }
+}
+
+addNewOrder = function()
+{
+  var resultTr = $(this).closest("tr.order-table-container");
+  var rollId = resultTr.data("roll_id");
+  var newOrderTr = $(this).closest("tr.neworder");
+  $.post(
+    'rolls/' + rollId + '/orders',
+    { "order": { "name": newOrderTr.find('input[name="name"]').val(), "length": newOrderTr.find('input[name="length"]').val() } },
+    function(data) {
+      updateRollNumbers(data["roll_id"]);
+      loadOrderTable(data["roll_id"]);
+    },
+    "json"
+  );
+  return false;
+}
+
+setDoneStatus = function()
+{
+  var rollId = $(this).closest("tr.order-table-container").data("roll_id");
+  var orderId = $(this).closest("tr.order").data("order_id");
+  $.ajax({
+    type: 'PUT',
+    url: 'rolls/' + rollId + '/orders/' + orderId,
+    dataType: "json",
+    data: { "order": { "done": ($(this).prop("checked") ? 1 : 0) } }
+  })
+    .done(function() { updateRollNumbers(rollId) });
+}
+
 updateRollNumbers = function(rollId)
 {
   $.get(
@@ -15,60 +59,56 @@ loadOrderTable = function(rollId)
   var resultTr = $('tr.order-table-container[data-roll_id="' + rollId + '"]');
   resultTr.empty();
   resultTr.append('<td colspan="5"><div class="spinner"><img src="ajax-loader.gif"></img></div></td>');
-  resultTr.addClass("loading");
 
   $.get("rolls/" + rollId + "/ordertable", function(data) {
-    var resultTr = $(".loading");
-
-    resultTr.removeClass("loading");
     resultTr.empty();
-
     resultTr.append('<td colspan="5">' + data + '</td>');
 
-    resultTr.find('td.printed input[type="checkbox"]').click(function() {
-      var rollId = $(this).closest("tr.order-table-container").data("roll_id");
-      var orderId = $(this).closest("tr.order").data("order_id");
-      $.ajax({
-        type: 'PUT',
-        url: 'rolls/' + rollId + '/orders/' + orderId,
-        dataType: "json",
-        data: { "order": { "done": ($(this).prop("checked") ? 1 : 0) } }
-      });
-    });
-
-    resultTr.find('tr.neworder a.submit').click(function() {
-      var resultTr = $(this).closest("tr.order-table-container");
-      var rollId = resultTr.data("roll_id");
-      var newOrderTr = $(this).closest("tr.neworder");
-      $.post(
-        'rolls/' + rollId + '/orders',
-        { "order": { "name": newOrderTr.find('input[name="name"]').val(), "length": newOrderTr.find('input[name="length"]').val() } },
-        function(data) {
-          updateRollNumbers(data["roll_id"]);
-          loadOrderTable(data["roll_id"]);
-        },
-        "json"
-      );
-      return false;
-    });
+    resultTr.find('td.printed input[type="checkbox"]').click(setDoneStatus);
+    resultTr.find('tr.neworder a.submit').click(addNewOrder);
   });
 }
 
-$(document).ready(function() {
-  $("table#rolls > tbody > tr.roll").click(function() {
-    var resultTr = $(this).next();
+editRoll = function()
+{
+  var rollTr = $(this).closest('tr.roll');
 
-    if (resultTr.css("display") == "none")
-    {
-      resultTr.show("fast", function() {
-        loadOrderTable($(this).data("roll_id"));
+  var nameTd = rollTr.find('.name');
+  var lengthTd = rollTr.find('.length');
+
+  var nameInput = $('<input type="text" name="name" value="' + nameTd.html() + '"></input>');
+  var lengthInput = $('<input type="number" min="0" step="0.1" name="length" value="' + lengthTd.html() + '"></input>');
+
+  nameTd.html(nameInput);
+  lengthTd.html(lengthInput);
+
+  nameInput.click(function() { return false; });
+  lengthInput.click(function() { return false; });
+
+  nameInput.focus();
+
+  var editLink = $(this);
+  editLink.html("done");
+  editLink.off("click").click(function() {
+    $.ajax({
+      type: 'PUT',
+      url: 'rolls/' + rollTr.data("roll_id"),
+      dataType: "json",
+      data: { "roll": { "name": nameInput.val(), "length": lengthInput.val() } }
+    })
+      .done(function(data) {
+        nameTd.html(data["name"]);
+        lengthTd.html(data["length"].toFixed(1));
+        editLink.html("edit");
+        editLink.off("click").click(editRoll);
       });
-    }
-    else
-    {
-      resultTr.hide("fast", function() {
-        $(this).empty();
-      });
-    }
+    return false;
   });
+
+  return false;
+}
+
+$(document).ready(function() {
+  $("table#rolls > tbody > tr.roll").click(toggleOrderTableDisplay);
+  $("table#rolls > tbody > tr.roll a.editroll").click(editRoll);
 });

@@ -4,7 +4,6 @@ class OrdersController < ApplicationController
 
   def table
     @orders = @roll.orders.order(created_at: :asc)
-    sleep 1
     render partial: "table"
   end
 

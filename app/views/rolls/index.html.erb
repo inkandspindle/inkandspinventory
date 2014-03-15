@@ -5,24 +5,20 @@
     <tr>
       <td width="80">Length</td>
       <td width="500">Roll</td>
+      <td width="40"></td>
       <td width="80">On Shelf</td>
       <td width="80">Allocated</td>
       <td width="80">Available</td>
-      <td></td>
-      <td></td>
-      <td></td>
     </tr>
   </thead>
 
   <tbody>
     <% @rolls.each do |roll| %>
       <tr class="roll" data-roll_id="<%= roll.id %>">
-        <td class="numeric"><%= number_with_precision(roll.length, precision: 1) %></td>
-        <td class="name"><strong><%= roll.name %></strong></td>
+        <td class="numeric length"><%= roll.length %></td>
+        <td class="name"><%= roll.name %></td>
+        <td class="editlinks"><a class="editroll" href="#">edit</a></td>
         <%= render partial: "variable_numbers", locals: { roll: roll } %>
-        <td><%= link_to 'Show', roll %></td>
-        <td><%= link_to 'Edit', edit_roll_path(roll) %></td>
-        <td><%= link_to 'Destroy', roll, method: :delete, data: { confirm: 'Are you sure?' } %></td>
       </tr>
       <tr class="order-table-container" data-roll_id="<%= roll.id %>">
       </tr>
