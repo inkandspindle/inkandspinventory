@@ -1,9 +1,9 @@
 class OrdersController < ApplicationController
   before_action :set_roll
-  before_action :set_order, only: [:show, :edit, :update, :ajax_update, :destroy]
+  before_action :set_order, only: [:show, :edit, :update, :ajax_update, :softdelete, :destroy]
 
   def table
-    @orders = @roll.orders.order(created_at: :asc)
+    @orders = @roll.orders.where(deleted: false).order(created_at: :asc)
     render partial: "table"
   end
 
@@ -51,6 +51,11 @@ class OrdersController < ApplicationController
         format.json { render json: @order.errors, status: :unprocessable_entity }
       end
     end
+  end
+
+  def softdelete
+    @order.update_attribute(:deleted, true)
+    render json: @order, status: :accepted
   end
 
   # DELETE /orders/1

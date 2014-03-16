@@ -7,6 +7,7 @@ Inkandspinventory::Application.routes.draw do
   resources :rolls do
     resources :orders
     get 'ordertable' => 'orders#table'
+    post 'deleteorder/:id' => 'orders#softdelete'
   end
   get 'rolls/:id/variable_numbers' => 'rolls#variable_numbers'
 

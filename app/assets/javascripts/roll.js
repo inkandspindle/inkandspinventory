@@ -78,10 +78,25 @@ loadOrderTable = function(rollId)
     resultTr.empty();
     resultTr.append('<td colspan="6">' + data + '</td>');
 
+    resultTr.find('a.deleteorder').click(deleteOrder);
     resultTr.find('td.printed input[type="checkbox"]').click(setDoneStatus);
     resultTr.find('a.editorder').click(editOrder);
     resultTr.find('tr.neworder a.submit').click(addNewOrder);
   });
+}
+
+deleteOrder = function()
+{
+  var rollId = $(this).closest('tr.order-table-container').data('roll_id');
+  var orderId = $(this).closest('tr.order').data('order_id');
+  if (confirm('Are you sure you want to delete this order?'))
+  {
+    $.post("rolls/" + rollId + "/deleteorder/" + orderId, {}, function(data) {
+      updateRollNumbers(rollId);
+      loadOrderTable(rollId);
+    });
+  }
+  return false;
 }
 
 editOrder = function()
