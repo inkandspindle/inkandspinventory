@@ -29,6 +29,20 @@ addNewOrder = function()
   return false;
 }
 
+addNewRoll = function()
+{
+  var newRollTr = $(this).closest("tr.newroll");
+  $.post(
+    'rolls',
+    { "roll": { "name": newRollTr.find('input[name="name"]').val(), "length": newRollTr.find('input[name="length"]').val() } },
+    function(data) {
+      location.reload(false);
+    },
+    "json"
+  );
+  return false;
+}
+
 setDoneStatus = function()
 {
   var rollId = $(this).closest("tr.order-table-container").data("roll_id");
@@ -182,4 +196,5 @@ editRoll = function()
 $(document).ready(function() {
   $("table#rolls > tbody > tr.roll").click(toggleOrderTableDisplay);
   $("table#rolls > tbody > tr.roll a.editroll").click(editRoll);
+  $("table#rolls > tbody > tr.newroll a.createroll").click(addNewRoll);
 });

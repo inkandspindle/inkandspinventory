@@ -27,10 +27,14 @@ class RollsController < ApplicationController
   def create
     @roll = Roll.new(roll_params)
 
-    if @roll.save
-      redirect_to @roll, notice: 'Roll was successfully created.'
-    else
-      render action: 'new'
+    respond_to do |format|
+      if @roll.save
+        format.html { redirect_to @roll, notice: 'Roll was successfully created.' }
+        format.json { render json: @roll, status: :created, location: roll_path(@roll) }
+      else
+        format.html { render action: 'new' }
+        format.json { render json: @roll.errors, status: :unprocessable_entity }
+      end
     end
   end
 

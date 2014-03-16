@@ -23,9 +23,12 @@
       <tr class="order-table-container" data-roll_id="<%= roll.id %>">
       </tr>
     <% end %>
+    <tr class="newroll">
+      <td><input type="number" min="0" step="0.1" name="length"></input></td>
+      <td><input type="text" name="name"></input></td>
+      <td><a class="createroll" href="#">create</a></td>
+      <td></td>
+      <td></td>
+    </tr>
   </tbody>
 </table>
-
-<br>
-
-<%= link_to 'New Roll', new_roll_path %>
