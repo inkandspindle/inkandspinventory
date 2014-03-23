@@ -81,3 +81,15 @@ table
     }
   }
 }
+
+.tt-dropdown-menu
+{
+  background: #fff;
+  padding: 6px 12px;
+  border: 2px dotted;
+
+  .tt-cursor
+  {
+    background: #ddd;
+  }
+}

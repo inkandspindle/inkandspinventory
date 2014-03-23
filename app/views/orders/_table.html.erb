@@ -13,7 +13,17 @@
               <tr class="order" data-order_id="<%= order.id %>">
                 <td class="actions"><a class="deleteorder" href=#">[x]</a></td>
                 <td class="printed"><input type="checkbox"<%= order.done? ? ' checked=1' : "" %>></input></td>
-                <td class="ordername"><%= order.name %></td>
+                <td class="ordername">
+                  <span class="design"><%= order.design %></span>
+                  <% if order.colour1 && order.colour1.length > 0 then %>
+                    in
+                    <span class="colour1"><%= order.colour1 %></span>
+                    <% if order.colour2 && order.colour2.length > 0 then %>
+                      &amp;
+                      <span class="colour2"><%= order.colour2 %></span>
+                    <% end %>
+                  <% end %>
+                </td>
                 <td class="numeric orderlength"><%= order.length %></td>
                 <td class="actions"><a class="editorder" href="#">edit</a></td>
               </tr>
@@ -21,8 +31,8 @@
             <tr class="neworder">
               <td></td>
               <td></td>
-              <td><input type="text" name="name"></input></td>
-              <td><input type="number" name="length" min="0" step="0.1"></input></td>
+              <td><input type="text" name="design" placeholder="Design"></input> in <input type="text" name="colour1" placeholder="Colour"></input> &amp; <input type="text" name="colour2" placeholder="Colour (optional)"></input></td>
+              <td><input type="number" name="length" min="0" step="0.1" placeholder="metres"></input></td>
               <td><a href="#" class="submit">create</a></td>
             </tr>
           </tbody>

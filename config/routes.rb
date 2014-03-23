@@ -11,6 +11,11 @@ Inkandspinventory::Application.routes.draw do
   end
   get 'rolls/:id/variable_numbers' => 'rolls#variable_numbers'
 
+  namespace :orders do
+    get 'colours'
+    get 'designs'
+  end
+
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'
 

@@ -1,10 +1,21 @@
 class OrdersController < ApplicationController
-  before_action :set_roll
+  before_action :set_roll, except: [:colours, :designs]
   before_action :set_order, only: [:show, :edit, :update, :ajax_update, :softdelete, :destroy]
 
   def table
     @orders = @roll.orders.where(deleted: false).order(created_at: :asc)
     render partial: "table"
+  end
+
+  def colours
+    colour1s = Order.uniq.pluck(:colour1)
+    colour2s = Order.uniq.pluck(:colour2)
+    colours = (colour1s + colour2s).uniq.compact
+    render json: colours
+  end
+  def designs
+    designs = Order.uniq.pluck(:design).compact
+    render json: designs
   end
 
   # GET /orders
@@ -73,6 +84,6 @@ class OrdersController < ApplicationController
     end
 
     def order_params
-      params.require(:order).permit(:name, :length, :done)
+      params.require(:order).permit(:colour1, :colour2, :design, :length, :done)
     end
 end
