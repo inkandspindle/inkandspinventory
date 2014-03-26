@@ -185,7 +185,7 @@ editOrder = function()
           }
         }
         nameTd.html(nameHtml);
-        lengthTd.html(data["length"].toFixed(1));
+        lengthTd.html(data["length"] ? data["length"].toFixed(1) : '');
         editLink.html("edit");
         editLink.off("click").click(editOrder);
         updateRollNumbers(rollId);
@@ -239,7 +239,7 @@ editRoll = function()
     })
       .done(function(data) {
         nameTd.html(data["name"]);
-        lengthTd.html(data["length"].toFixed(1));
+        lengthTd.html(data["length"] ? data["length"].toFixed(1) : '');
         editLink.html("edit");
         editLink.off("click").click(editRoll);
         updateRollNumbers(rollTr.data("roll_id"));
