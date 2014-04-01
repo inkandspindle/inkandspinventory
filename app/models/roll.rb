@@ -18,8 +18,8 @@ class Roll < ActiveRecord::Base
 
   def comparison_number
     if length && length > 0 && available > 0
-      # Those with defined lengths and availability appear first (at offset 0 * BIG_TIME) sorted by available desc.
-      0 * BIG_TIME + (BIG_TIME - available)
+      # Those with defined lengths and availability appear first (at offset 0 * BIG_TIME) sorted by created_at desc.
+      0 * BIG_TIME + (BIG_TIME - created_at.to_i)
     elsif !length || length == 0
       # Those with no length appear second (at offset 1 * BIG_TIME) sorted by created_at.
       1 * BIG_TIME + created_at.to_i
