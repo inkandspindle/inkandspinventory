@@ -13,22 +13,40 @@
   </thead>
 
   <tbody>
-    <% @rolls.each do |roll| %>
-      <tr class="roll" data-roll_id="<%= roll.id %>">
+    <%
+      seen_unset_roll = false
+      added_newroll_row = false
+      @rolls.each do |roll|
+        extra_class = ""
+        add_newroll_row = false
+        if !seen_unset_roll && !roll.length || roll.length == 0
+          extra_class += " first-unset"
+          seen_unset_roll = true
+        end
+        if !added_newroll_row && roll.length && roll.available == 0
+          add_newroll_row = true
+        end
+    %>
+      <% if add_newroll_row %>
+        <tr class="newroll">
+          <td><input type="number" min="0" step="0.1" name="length"></input></td>
+          <td><input type="text" name="name"></input></td>
+          <td><a class="createroll" href="#">create</a></td>
+          <td></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td colspan=6></td>
+        </tr>
+        <% added_newroll_row = true %>
+      <% end %>
+      <tr class="roll<%= extra_class %>" data-roll_id="<%= roll.id %>">
         <td class="numeric length"><%= roll.length %></td>
         <td class="name"><%= roll.name %></td>
         <td class="editlinks"><a class="editroll" href="#">edit</a></td>
         <%= render partial: "variable_numbers", locals: { roll: roll } %>
       </tr>
-      <tr class="order-table-container" data-roll_id="<%= roll.id %>">
-      </tr>
+      <tr class="order-table-container" data-roll_id="<%= roll.id %>"></tr>
     <% end %>
-    <tr class="newroll">
-      <td><input type="number" min="0" step="0.1" name="length"></input></td>
-      <td><input type="text" name="name"></input></td>
-      <td><a class="createroll" href="#">create</a></td>
-      <td></td>
-      <td></td>
-    </tr>
   </tbody>
 </table>

@@ -80,6 +80,14 @@ table
       text-align: right;
     }
   }
+
+  tr.first-unset, tr.newroll
+  {
+    td
+    {
+      padding-top: 2.5em;
+    }
+  }
 }
 
 .tt-dropdown-menu
