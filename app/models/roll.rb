@@ -6,7 +6,7 @@ class Roll < ActiveRecord::Base
   before_save :default_values
 
   def onshelf
-    length - used
+    length ? length - used : 0.0
   end
   def available
     length ? length - allocated : 0.0
@@ -17,14 +17,14 @@ class Roll < ActiveRecord::Base
   end
 
   def comparison_number
-    if length && length > 0 && available > 0
-      # Those with defined lengths and availability appear first (at offset 0 * BIG_TIME) sorted by created_at desc.
+    if length && length > 0 && onshelf > 0
+      # Those with defined lengths still on the shelf appear first (at offset 0 * BIG_TIME) sorted by created_at desc.
       0 * BIG_TIME + (BIG_TIME - created_at.to_i)
     elsif !length || length == 0
       # Those with no length appear second (at offset 1 * BIG_TIME) sorted by created_at.
       1 * BIG_TIME + created_at.to_i
     else
-      # Those with no availability and a defined length appear last (at offset 2 * BIG_TIME) sorted by created_at desc.
+      # Those not on the shelf with a defined length appear last (at offset 2 * BIG_TIME) sorted by created_at desc.
       2 * BIG_TIME + (BIG_TIME - created_at.to_i)
     end
   end
