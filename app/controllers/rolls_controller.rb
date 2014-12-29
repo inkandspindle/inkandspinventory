@@ -3,7 +3,7 @@ class RollsController < ApplicationController
 
   # GET /rolls
   def index
-    @rolls = Roll.all
+    @rolls = Roll.all.to_a
     @rolls.sort!
   end
 
